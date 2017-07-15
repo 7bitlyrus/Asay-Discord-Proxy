@@ -1,0 +1,11 @@
+"AddonInfo"
+{
+	"name"				"Asay Discord Proxy"
+	"version"			"1"
+	"up_date"			"00/00/00"
+	"author_name"		"Ian Murray"
+	"author_email"		"ian@murr.pro"
+	"author_url"		"https://github.com/IanMurray"
+	"info"				"Sends ulx asays to a Discord chat if your staff isn't online."
+	"override"			"0"
+}
