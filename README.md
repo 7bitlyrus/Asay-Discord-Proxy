@@ -1,5 +1,5 @@
 # Asay Discord Proxy
-Sends `ulx asay`s to a Discord chat if your staff arn't online.
+Sends `ulx asay`s to a Discord chat if your staff aren't online.
 
 ## Requirements
 This addon requires [ULX](https://github.com/TeamUlysses/ulx) on your server, duh.
