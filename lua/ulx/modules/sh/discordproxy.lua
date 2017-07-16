@@ -3,7 +3,7 @@ local servername = "My Server" -- Server name for messages.
 local webhookurl   = "https://discordapp.com/api/webhooks/.../..." -- Discord webhook url.
 
 -- Localization text, %s will be replaced with correct values. The first three need to be under 128 characters, the last under ~1500
-local txtCooldown = "There are no staff members online and you are sending messages too fast and wasn't sent! Please wait %s seconds." -- Value: Seconds left.
+local txtCooldown = "There are no staff members online. Also you are sending messages too fast, so it wasn't sent! Please wait %s seconds." -- Value: Seconds left.
 local txtError = "There are no staff members online. Unfortunately, your message could not be delivered."
 local txtSent = "There are no staff members online. Your message was sent to the staff team via Discord."
 local txtMsg = "**%s** `%s` has sent the following message on **%s** while no staff were online:\n%s" -- Values: Player Name, Player SteamID, Server Name, Message
