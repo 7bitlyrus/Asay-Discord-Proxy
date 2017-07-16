@@ -15,32 +15,31 @@ hook.Add("ULibCommandCalled","asayhooker",function(ply,cmd,args) -- Hook to asay
         if #args < 1 then return end -- If they don't give a message, ignore it.
 
         local players = player.GetAll() -- If there is a admin online, also ignore it.
-		for i=#players, 1, -1 do
-			local v = players[ i ]
-			if ULib.ucl.query( v, "ulx seeasay" ) then
-				return
-			end
+	for i=#players, 1, -1 do
+		local v = players[ i ]
+		if ULib.ucl.query( v, "ulx seeasay" ) then
+			return
 		end
+	end
 
-		if tonumber(ply:GetPData( "report-ratelimit", 0 )) > os.time() then -- Send an error if they're being ratelimted.
-			ULib.tsayError(ply, txtNoStaff .. " " .. string.format(txtCooldown, ply:GetPData( "report-ratelimit", 0 )-os.time()), true)
+	if tonumber(ply:GetPData( "report-ratelimit", 0 )) > os.time() then -- Send an error if they're being ratelimted.
+		ULib.tsayError(ply, txtNoStaff .. " " .. string.format(txtCooldown, ply:GetPData( "report-ratelimit", 0 )-os.time()), true)
+		return
+	end
+
+	params = { content = string.format(txtMsg, ply:GetName(), ply:SteamID(), servername, table.concat(args," ")) } -- Prepare for discord send.
+
+	http.Post( webhookurl, params, function( text, len, head, status ) -- Send to Discord.
+		if status >= 400 then
+			ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
 			return
 		end
 
-		params = { content = string.format(txtMsg, ply:GetName(), ply:SteamID(), servername, table.concat(args," ")) } -- Prepare for discord send.
-
-		http.Post( webhookurl, params, function( text, len, head, status ) -- Send to Discord.
-			if status >= 400 then
-				ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
-			end
-
-			ULib.tsay(ply, txtNoStaff .. " " .. txtSent, true)
-			ply:SetPData( "report-ratelimit", os.time()+ratelimit )
-
-		end, function()
-			ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
-		end )
-
-        return
+		ULib.tsay(ply, txtNoStaff .. " " .. txtSent, true)
+		ply:SetPData( "report-ratelimit", os.time()+ratelimit )
+	end, function()
+		ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
+	end )
+	return
     end
 end)
