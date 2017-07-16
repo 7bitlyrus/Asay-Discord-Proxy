@@ -11,6 +11,8 @@ local txtMsg = "**%s** `%s` has sent a message to admins on **%s**:\n%s" -- Valu
 
 
 hook.Add("ULibCommandCalled","asayhooker",function(ply,cmd,args) -- Hook to asay.
+	if not ply:IsValid() then return end -- If they arn't a valid player, ignore it, to avoid error.
+		
     if cmd == "ulx asay" and ply:query("ulx asay") then
         if #args < 1 then return end -- If they don't give a message, ignore it.
 
@@ -41,5 +43,6 @@ hook.Add("ULibCommandCalled","asayhooker",function(ply,cmd,args) -- Hook to asay
 		ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
 	end )
 	return
+
     end
 end)
