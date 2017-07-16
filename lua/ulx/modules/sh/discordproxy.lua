@@ -3,10 +3,9 @@ local servername = "My Server" -- Server name for messages.
 local webhookurl   = "https://discordapp.com/api/webhooks/.../..." -- Discord webhook url.
 
 -- Localization text, %s will be replaced with correct values.
-local txtNoStaff = "There are currently no staff members online."
-local txtCooldown = "However, you are sending admin messages too fast and your message was not sent! Please wait %s seconds before sending another." -- Value: Seconds left.
-local txtError = "Unfortunately, your message could not be delivered."
-local txtSent = "Your message was sent to the staff team via Discord."
+local txtCooldown = "There are currently no staff members online. However, you are sending admin messages too fast and your message was not sent! Please wait %s seconds before sending another." -- Value: Seconds left.
+local txtError = "There are currently no staff members online. Unfortunately, your message could not be delivered."
+local txtSent = "There are currently no staff members online. Your message was sent to the staff team via Discord."
 local txtMsg = "**%s** `%s` has sent the following message on **%s** while no staff were online:\n%s" -- Values: Player Name, Player SteamID, Server Name, Message
 
 
@@ -25,7 +24,7 @@ hook.Add("ULibCommandCalled","asayhooker",function(ply,cmd,args) -- Hook to asay
 	end
 
 	if tonumber(ply.reportrl || 0 ) > os.time() then -- Send an error if they're being ratelimted.
-		ULib.tsayError(ply, txtNoStaff .. " " .. string.format(txtCooldown, ply.reportrl-os.time()), true)
+		ULib.tsayError(ply, string.format(txtCooldown, ply.reportrl-os.time()), true)
 		return
 	end
 
@@ -33,14 +32,14 @@ hook.Add("ULibCommandCalled","asayhooker",function(ply,cmd,args) -- Hook to asay
 
 	http.Post( webhookurl, params, function( text, len, head, status ) -- Send to Discord.
 		if status >= 400 then
-			ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
+			ULib.tsayError(ply, txtError, true)
 			return
 		end
 
-		ULib.tsay(ply, txtNoStaff .. " " .. txtSent, true)
+		ULib.tsayError(ply, txtSent, true)
 		ply.reportrl = os.time()+ratelimit
 	end, function()
-		ULib.tsayError(ply, txtNoStaff .. " " .. txtError )
+		ULib.tsayError(ply, txtError, true)
 	end )
 	return
 
